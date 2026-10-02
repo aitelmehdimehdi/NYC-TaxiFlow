@@ -1,0 +1,18 @@
+[
+  {
+    "year": 2026,
+    "month": 6,
+    "status": "failed",
+    "row_count": null,
+    "ingested_at": "2026-09-25T23:39:58.026786+00:00",
+    "error": "Request failed: HTTPSConnectionPool(host='d37ci6vzurychx.cloudfront.net', port=443): Max retries exceeded with url: /trip-data/yellow_tripdata_2026-06.parquet (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000001CFD5B4EE40>: Failed to resolve 'd37ci6vzurychx.cloudfront.net' ([Errno 11001] getaddrinfo failed)\"))"
+  },
+  {
+    "year": 2026,
+    "month": 6,
+    "status": "success",
+    "row_count": 3837248,
+    "ingested_at": "2026-09-27T13:46:37.114372+00:00",
+    "error": null
+  }
+]

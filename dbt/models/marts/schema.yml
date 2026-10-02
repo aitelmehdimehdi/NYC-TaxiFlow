@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: fact_trips
+    description: "Grain: one row = one taxi trip. Central fact table joined to dim_date, dim_zone (twice, for pickup and dropoff), dim_payment, and dim_vendor."
+    columns:
+      - name: trip_id
+        description: "Surrogate key (see stg_trips.sql for how it's derived)."
+        tests:
+          - not_null
+          - unique
+      - name: vendor_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_vendor')
+              field: vendor_id
+      - name: pickup_date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: pickup_zone_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_zone')
+              field: location_id
+      - name: dropoff_zone_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_zone')
+              field: location_id
+      - name: payment_type_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_payment')
+              field: payment_type_id
+
+  - name: dim_date
+    description: "One row per calendar day, spanning the range of pickup_date values seen in the trip data (plus a small buffer)."
+    columns:
+      - name: date_key
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_zone
+    description: "One row per NYC TLC taxi zone."
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_payment
+    description: "One row per known payment_type code (the full documented domain, not just codes observed in current data)."
+    columns:
+      - name: payment_type_id
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_vendor
+    description: "One row per known vendor_id code."
+    columns:
+      - name: vendor_id
+        tests:
+          - not_null
+          - unique

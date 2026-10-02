@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: staging
+    schema: staging
+    description: "Raw staging tables loaded directly by the Python pipeline (src/warehouse/load.py), before any dbt transformation."
+    tables:
+      - name: stg_taxi_trips
+        description: "One row per taxi trip, loaded as-is from Silver Parquet. Idempotently replaced per batch_year/batch_month by the Python loader."
+        columns:
+          - name: batch_year
+            tests:
+              - not_null
+          - name: batch_month
+            tests:
+              - not_null
+
+models:
+  - name: stg_trips
+    description: "Staged, lightly renamed trip records. One row per taxi trip. Grain: one row = one taxi trip (see docs/data_dictionary.md and docs/decisions.md for the full grain discussion)."
+    columns:
+      - name: trip_id
+        description: "Surrogate key, hashed from vendor + pickup/dropoff timestamps + pickup/dropoff location. The source data has no natural trip identifier."
+        tests:
+          - not_null
+          - unique
+      - name: vendor_id
+        tests:
+          - not_null
+      - name: pickup_datetime
+        tests:
+          - not_null
+      - name: dropoff_datetime
+        tests:
+          - not_null
+      - name: payment_type
+        tests:
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6]
+
+  - name: stg_zones
+    description: "Staged taxi zone lookup reference data (NYC TLC zones)."
+    columns:
+      - name: location_id
+        tests:
+          - not_null
+          - unique

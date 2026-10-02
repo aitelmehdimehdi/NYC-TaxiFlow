@@ -1,0 +1,8 @@
+requests
+pytest
+pyarrow
+pyspark
+psycopg2-binary 
+python-dotenv
+pandas
+dbt-postgres

@@ -1,0 +1,24 @@
+# dbt/profiles.yml.example
+#
+# dbt looks for a file named `profiles.yml` in a "profiles directory" —
+# by default that's ~/.dbt/profiles.yml, NOT inside this project folder.
+# This file is a TEMPLATE showing what's needed; copy its contents into
+# your actual ~/.dbt/profiles.yml (create the file/folder if it doesn't
+# exist yet).
+#
+# Credentials are read from environment variables (via env_var()), the
+# same ones already set up for the Python pipeline in your .env file.
+# This means the real password is never written into this file at all.
+
+taxi_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('POSTGRES_HOST', 'localhost') }}"
+      port: "{{ env_var('POSTGRES_PORT', '5432') | as_number }}"
+      user: "{{ env_var('POSTGRES_USER', 'postgres') }}"
+      password: "{{ env_var('POSTGRES_PASSWORD') }}"
+      dbname: "{{ env_var('POSTGRES_DB', 'nyc_taxi') }}"
+      schema: public
+      threads: 4
