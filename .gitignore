@@ -1,2 +1,47 @@
+# Environment & secrets
 .env
-dashboard/dashboard.pbix
+*.env.local
+
+# Data (medallion layers — large, regenerable, never committed)
+data/raw/*
+data/bronze/*
+data/silver/*
+data/quarantine/*
+!data/raw/.gitkeep
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/quarantine/.gitkeep
+data/reference/*.parquet
+
+# Power BI
+dashboard/*.pbix
+dashboard/*.pbit
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# PySpark
+spark-warehouse/
+metastore_db/
+derby.log
+
+# dbt
+dbt/taxi_analytics/target/
+dbt/taxi_analytics/dbt_packages/
+dbt/taxi_analytics/logs/
+
+# Airflow
+airflow/logs/
+airflow/plugins/__pycache__/
+*.pid
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
