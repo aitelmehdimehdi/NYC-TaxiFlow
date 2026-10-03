@@ -1,3 +1,13 @@
+# dbt/taxi_analytics/profiles.yml
+#
+# Unlike a typical dbt setup, this file lives INSIDE the project folder
+# (not in ~/.dbt/profiles.yml) so both local CLI usage and the Airflow
+# container can point to it explicitly via --profiles-dir, without
+# needing a separate copy-and-edit step in each environment.
+#
+# Safe to commit: every credential is read from an environment
+# variable via env_var(), never hardcoded here.
+
 taxi_analytics:
   target: dev
   outputs:

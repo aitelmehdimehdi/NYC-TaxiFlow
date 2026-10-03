@@ -1,2 +1,5 @@
 docker compose up --build
 localhost:8080
+
+docker compose exec airflow-scheduler airflow dags list-import-errors
+docker compose exec airflow-scheduler airflow dags trigger taxi_pipeline --conf '{"year": 2026, "month": 6}'
